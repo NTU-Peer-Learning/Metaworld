@@ -14,21 +14,21 @@
 	<actuator>
 		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="shoulder_pan_joint"
 			name="shoulder_pan" />
-		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="shoulder_lift_joint"
+		<motor gear="200" ctrllimited="true" ctrlrange="-1 1" joint="shoulder_lift_joint"
 			name="shoulder_lift" />
 		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="upperarm_roll_joint"
 			name="upperarm_roll" />
-		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="elbow_flex_joint"
+		<motor gear="200" ctrllimited="true" ctrlrange="-1 1" joint="elbow_flex_joint"
 			name="elbow_flex" />
 		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="forearm_roll_joint"
 			name="forearm_roll" />
-		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="wrist_flex_joint"
+		<motor gear="200" ctrllimited="true" ctrlrange="-1 1" joint="wrist_flex_joint"
 			name="wrist_flex" />
 		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="wrist_roll_joint"
 			name="wrist_roll" />
-		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="r_gripper_finger_joint"
+		<motor gear="20" ctrllimited="true" ctrlrange="-1 1" joint="r_gripper_finger_joint"
 			name="r_gripper_finger" />
-		<motor gear="100" ctrllimited="true" ctrlrange="-1 1" joint="l_gripper_finger_joint"
+		<motor gear="20" ctrllimited="true" ctrlrange="-1 1" joint="l_gripper_finger_joint"
 			name="l_gripper_finger" />
 	</actuator>
 </mujocoinclude>

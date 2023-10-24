@@ -95,7 +95,7 @@ language governing permissions and limitations under the License.
 										<joint limited='true' name="wrist_roll_joint" axis="1 0 0"
 											range='-3.14 3.14' />
 										<geom mesh="wrist_roll_link" />
-										<body name="gripper_link" pos="0.16645 0 0">
+										<body name="hand" pos="0.16645 0 0">
 											<inertial pos="-0.09 -0.0001 -0.0017"
 												quat="0 0.707107 0 0.707107" mass="1.5175"
 												diaginertia="0.0024 0.0019 0.0013" />
@@ -113,6 +113,8 @@ language governing permissions and limitations under the License.
 												mesh="r_gripper_finger_link"/-©vk©-->
 												<geom pos="-.05 -.008 0" type="box"
 													size="0.082 0.008 0.03" />
+												<site name="rightEndEffector" pos="0.032 -0.008 0"
+													size="0.01" rgba="1.0 0.0 0.0 1.0" />
 											</body>
 											<body name="l_gripper_finger_link" pos="0 -0.0159 0.0"
 												childclass="fetchGripper">
@@ -125,6 +127,8 @@ language governing permissions and limitations under the License.
 												rgba=".1 .1 .2 1"/>-©vk©-->
 												<geom pos="-.05 .008 0" type="box"
 													size="0.082 0.008 0.03" rgba="0.32 0.32 0.376 1" />
+												<site name="leftEndEffector" pos="0.032 0.008 0"
+													size="0.01" rgba="1.0 0.0 0.0 1.0" />
 											</body>
 										</body>
 									</body>
