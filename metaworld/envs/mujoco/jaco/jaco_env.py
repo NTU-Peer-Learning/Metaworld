@@ -79,8 +79,8 @@ class JacoEnv(ArmEnv):
                     -30.5,
                     -30.5,
                     -30.5,
-                    -6.8,
-                    -6.8,
+                    0,
+                    0,
                     0,
                 ]
             ),
@@ -91,8 +91,8 @@ class JacoEnv(ArmEnv):
                     30.5,
                     30.5,
                     30.5,
-                    6.8,
-                    6.8,
+                    1.51,
+                    1.51,
                     1.51,
                 ]
             ),
@@ -138,8 +138,7 @@ class JacoEnv(ArmEnv):
         self.do_simulation(parsed_action, n_frames=self.frame_skip)
 
     def gripper_effort_from_action(self, action):
-        # TODO
-        return action[-1]
+        return action[-1] / 1.51
 
     def get_action_penalty(self, action):
         action_norm = np.linalg.norm(action)

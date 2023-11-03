@@ -57,7 +57,7 @@ class JacoButtonPressTopdownEnvV2(JacoEnv):
             button_pressed,
         ) = self.compute_reward(action, obs)
         info = {
-            "success": float(obj_to_target <= 0.024),
+            "success": float(obj_to_target <= 0.03),
             "near_object": float(tcp_to_obj <= 0.05),
             "grasp_success": float(tcp_open > 0),
             "grasp_reward": near_button,
@@ -122,7 +122,7 @@ class JacoButtonPressTopdownEnvV2(JacoEnv):
         )
         button_pressed = reward_utils.tolerance(
             obj_to_target,
-            bounds=(0, 0.005),
+            bounds=(0, 0.02),
             margin=self._obj_to_target_init,
             sigmoid="long_tail",
         )

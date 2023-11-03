@@ -624,7 +624,8 @@ class ArmEnv(MocapBase, EzPickle):
         raise NotImplementedError
 
     def reset(self, seed=None, options=None):
-        np.random.seed(seed)
+        if seed is not None:
+            self.seed(seed)
         self.curr_path_length = 0
         _, info = super().reset()
         obs, _ = self._get_obs()

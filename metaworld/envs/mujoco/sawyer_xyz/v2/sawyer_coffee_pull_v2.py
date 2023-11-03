@@ -91,8 +91,8 @@ class SawyerCoffeePullEnvV2(SawyerXYZEnv):
         arm_nqpos = self._QPOS_SPACE.low.size
         qpos = self.data.qpos.flat.copy()
         qvel = self.data.qvel.flat.copy()
-        qpos[arm_nqpos : arm_nqpos + 2] = pos
-        qvel[arm_nqpos : arm_nqpos + 6] = 0
+        qpos[arm_nqpos : arm_nqpos + 3] = pos
+        qvel[arm_nqpos : arm_nqpos + 7] = 0
         self.set_state(qpos, qvel)
 
     def reset_model(self):

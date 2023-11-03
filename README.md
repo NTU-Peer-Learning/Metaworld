@@ -33,7 +33,7 @@ print(ALL_ENV)
   - goal pos: 3
 - Action space: 4
   - delta xyz: 3
-  - gripper torque: 1 (7)
+  - gripper position: 1 (7)
 
 ### Sawyer
 
@@ -133,7 +133,7 @@ Worked:
 
 Failed:
 
-- coffee: XML aqpos order
+- coffee: XML qpos order
 - assembly: too hard
 - basketball: too hard
 - bin-picking: too hard

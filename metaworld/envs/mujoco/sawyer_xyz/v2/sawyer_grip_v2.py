@@ -1,6 +1,7 @@
 import numpy as np
 from gymnasium.spaces import Box
 
+import mujoco
 from scipy.spatial.transform import Rotation
 from metaworld.envs import reward_utils
 from metaworld.envs.asset_path_utils import full_v2_path_for
@@ -59,6 +60,7 @@ class SawyerGripEnvV2(SawyerXYZEnv):
             tcp_to_obj,
             tcp_opened,
             object_grasped,
+            shake_bonus,
         ) = self.compute_reward(action, obs)
 
         grasp_success = float(self.touching_main_object and tcp_opened)
@@ -68,7 +70,7 @@ class SawyerGripEnvV2(SawyerXYZEnv):
             "near_object": float(tcp_to_obj <= 0.03),
             "grasp_reward": object_grasped,
             "grasp_success": grasp_success,
-            "in_place_reward": -1,
+            "in_place_reward": shake_bonus,
             "obj_to_target": -1,
             "unscaled_reward": reward,
         }
@@ -219,12 +221,37 @@ class SawyerGripEnvV2(SawyerXYZEnv):
         #     object_grasped, in_place
         # )
 
+        object_vel = np.zeros(6)
+        mujoco.mj_objectVelocity(
+            self.model,
+            self.data,
+            mujoco.mjtObj.mjOBJ_BODY,
+            mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "obj"),
+            object_vel,
+            0,
+        )
+        # ic(object_vel)
+        object_vel_norm = np.linalg.norm(object_vel[3:])
+
+        shake_bonus = reward_utils.tolerance(
+            object_vel_norm,
+            bounds=(0, 0.3),
+            margin=0.3,
+            sigmoid="long_tail",
+        )
+        shake_bonus = 1 - shake_bonus
+
+        if object_grasped > 0.95:
+            reward = 9 * object_grasped + shake_bonus
+        else:
+            reward = 9 * object_grasped
+
         # reward = (2 * object_grasped) + (6 * in_place_and_object_grasped)
-        reward = object_grasped * 10
+        # reward = object_grasped * 10
 
         # if obj_to_target < _TARGET_RADIUS:
         #     reward = 10.0
-        return [reward, tcp_to_obj, tcp_opened, object_grasped]
+        return [reward, tcp_to_obj, tcp_opened, object_grasped, shake_bonus]
 
 
 class TrainGripv2(SawyerGripEnvV2):
