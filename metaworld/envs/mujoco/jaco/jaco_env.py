@@ -138,6 +138,10 @@ class JacoEnv(ArmEnv):
     def right_pad(self):
         return self.get_body_com("thumb_distal")
 
+    @property
+    def gripper_opened(self):
+        return self.gripper_distance_apart > self.OBJ_RADIUS
+
     def set_action(self, action):
         """Applies the given action to the simulation.
 
@@ -163,12 +167,46 @@ class JacoEnv(ArmEnv):
 
     @property
     def gripper_distance_apart(self):
-        # TODO
-        return 0
+        finger_right, finger_left = (
+            self.data.body("thumb_distal"),
+            self.data.body("index_distal"),
+        )
+        gripper_distance_apart = np.linalg.norm(finger_right.xpos - finger_left.xpos)
+        return gripper_distance_apart
 
     def touching_object(self, object_geom_id):
-        # TODO
-        return False
+        leftpad_geom_id = self.data.geom("index_tip_collision").id
+        rightpad_geom_id = self.data.geom("thumb_tip_collision").id
+
+        leftpad_object_contacts = [
+            x
+            for x in self.unwrapped.data.contact
+            if (
+                leftpad_geom_id in (x.geom1, x.geom2)
+                and object_geom_id in (x.geom1, x.geom2)
+            )
+        ]
+
+        rightpad_object_contacts = [
+            x
+            for x in self.unwrapped.data.contact
+            if (
+                rightpad_geom_id in (x.geom1, x.geom2)
+                and object_geom_id in (x.geom1, x.geom2)
+            )
+        ]
+
+        leftpad_object_contact_force = sum(
+            self.unwrapped.data.efc_force[x.efc_address]
+            for x in leftpad_object_contacts
+        )
+
+        rightpad_object_contact_force = sum(
+            self.unwrapped.data.efc_force[x.efc_address]
+            for x in rightpad_object_contacts
+        )
+
+        return 0 < leftpad_object_contact_force and 0 < rightpad_object_contact_force
 
     def _gripper_caging_reward(  # TODO
         self,
@@ -183,4 +221,4 @@ class JacoEnv(ArmEnv):
         medium_density=False,
     ):
         # TODO
-        return 0
+        raise NotImplemented
